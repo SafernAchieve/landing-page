@@ -56,8 +56,8 @@
   
   <style scoped>
   .v-footer {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   </style>
   
