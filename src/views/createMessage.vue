@@ -37,7 +37,7 @@
                 <v-col cols="12" sm="6">
                   <v-select
                     label="Is Active"
-                    items="['True', 'False']"
+                    :items="['True', 'False']"
                     outlined
                     v-model="isActive"
                   ></v-select>
