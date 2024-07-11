@@ -41,6 +41,8 @@
   </template>
   
   <script>
+  import eventBus from '../eventBus';
+  import { nextTick } from 'vue';
   import router from '../router'
   export default {
     name: 'viewMessage',
