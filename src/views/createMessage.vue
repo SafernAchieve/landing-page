@@ -70,7 +70,7 @@
                 label="Message Body"
                 rows="8"
                 outlined
-                v-model="messageBody"
+                v-model="message"
               ></v-textarea>
             </v-col>
             <v-col cols="12" class="text-center">
@@ -85,6 +85,9 @@
   <script>
   import addEmail from './addEmail.vue';
  import Conditions from './Conditions.vue'
+ import eventBus from '../eventBus'
+
+
 
   export default {
     name: 'createMessage',
@@ -95,6 +98,7 @@
     },
     data() {
       return {
+        message: 'No message provided',
         notificationName: '',
         notificationDesc: '',
         eventName: '',
@@ -103,6 +107,17 @@
         messageBody: '',
       };
     },
+    created() {
+  
+    eventBus.on('message-sent', this.updateMessage); // Listen for the event when the component is created
+  },
+  methods: {
+    updateMessage(message) {
+      console.log('Received message:', message); // Debug log
+      this.message = message;
+    }
+  }
+
   };
   </script>
   

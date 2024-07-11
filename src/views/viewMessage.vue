@@ -15,15 +15,15 @@
                     <v-divider class="mx-4" inset vertical></v-divider>
                     <v-spacer></v-spacer>
                     <v-btn color="primary" @click="createMessage">
-                    Create Message
-                  </v-btn>
+                      Create Message
+                    </v-btn>
                   </v-toolbar>
                 </template>
                 <template v-slot:item.action="{ item }">
                   <v-icon
                     small
                     class="mr-2"
-                    @click="createMessage"
+                    @click="createMessage(item.message)"
                     color="primary"
                   >mdi-eye</v-icon>
                   <v-icon
@@ -41,14 +41,12 @@
   </template>
   
   <script>
-  import eventBus from '../eventBus';
   import { nextTick } from 'vue';
-  import router from '../router'
+  import router from '../router';
+  import eventBus from '../eventBus';
+  
   export default {
     name: 'viewMessage',
-    components: {
-        router
-    },
     data() {
       return {
         headers: [
@@ -67,15 +65,18 @@
       };
     },
     methods: {
-
       viewMessage(message) {
         alert('Message: ' + message);
       },
       deleteEmailField(contact) {
         this.contacts = this.contacts.filter(c => c.id !== contact.id);
       },
-      createMessage(){
-        this.$router.push('/createMessage');
+      createMessage(item) {
+        this.$router.push('/createMessage').then(() => {
+          nextTick(() => {
+            eventBus.emit('message-sent', item); // Emit the event after the navigation
+          });
+        });
       }
     },
   };
