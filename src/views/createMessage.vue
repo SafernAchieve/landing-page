@@ -26,6 +26,7 @@
                     v-model="notificationDesc"
                   ></v-text-field>
                 </v-col>
+                
                 <v-col cols="12" sm="6">
                   <v-text-field
                     label="Event Name"
@@ -34,6 +35,7 @@
                     v-model="eventName"
                   ></v-text-field>
                 </v-col>
+
                 <v-col cols="12" sm="6">
                   <v-select
                     label="Is Active"
