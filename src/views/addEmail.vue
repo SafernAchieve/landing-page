@@ -7,7 +7,7 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>Data Table Example</v-toolbar-title>
+          <v-toolbar-title>Add Recipients</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn color="primary" dark @click="openDialog">Add New Item</v-btn>
         </v-toolbar>
@@ -37,10 +37,10 @@
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="closeDialog">Cancel</v-btn>
-          <v-btn color="blue darken-1" text @click="saveItem">Save</v-btn>
-        </v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="blue darken-1" text @click="closeDialog">Cancel</v-btn>
+        <v-btn color="blue darken-1" text @click="saveItem" :disabled="!isFormValid">Save</v-btn>
+      </v-card-actions>
       </v-card>
     </v-dialog>
   </template>
@@ -68,6 +68,11 @@
         editedIndex: -1
       };
     },
+    computed: {
+    isFormValid() {
+      return this.editedItem.name !== '' && this.editedItem.email !== '';
+    }
+  },
     methods: {
       openDialog() {
         this.dialogTitle = 'Add New Item';

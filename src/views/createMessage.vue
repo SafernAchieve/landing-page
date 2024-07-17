@@ -1,160 +1,187 @@
 <template>
-    <v-container class="mt-5" max-width="1600"> <!-- Adjust max-width as needed -->
-      <v-card class="pa-4 FormColor" max-width="1600"> <!-- Adjust max-width as needed -->
-        <v-form>
-          <v-row>
-            <v-col cols="12">
-              <v-legend class="text-center header">Notification Details</v-legend>
-              <v-divider class="my-4 hr-blurry"></v-divider>
-            </v-col>
-  
-            <v-col cols="12" class="notification-group">
-              <v-row>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    label="Notification Name"
-                    placeholder="Enter Notification Name"
-                    outlined
-                    v-model="notificationName"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    label="Notification Description"
-                    placeholder="Enter Notification Description"
-                    outlined
-                    v-model="notificationDesc"
-                  ></v-text-field>
-                </v-col>
-                
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    label="Event Name"
-                    placeholder="Enter Event Name"
-                    outlined
-                    v-model="eventName"
-                  ></v-text-field>
-                </v-col>
-
-                <v-col cols="12" sm="6">
-                  <v-select
-                    label="Is Active"
-                    :items="['True', 'False']"
-                    outlined
-                    v-model="isActive"
-                  ></v-select>
-                </v-col>
-              </v-row>
-            </v-col>
-  
+  <v-container class="mt-5" max-width="1600"> <!-- Adjust max-width as needed -->
+    <v-card class="pa-4 FormColor" max-width="1600"> <!-- Adjust max-width as needed -->
+      <v-form>
+        <v-row>
+          <v-col cols="12">
+            <v-legend class="text-center header">Notification Details</v-legend>
             <v-divider class="my-4 hr-blurry"></v-divider>
-  
+          </v-col>
+
+          <v-col cols="12" class="notification-group">
             <v-row>
               <v-col cols="12" sm="6">
-                <conditions />
+                <v-text-field
+                  label="Notification Name"
+                  placeholder="Enter Notification Name"
+                  outlined
+                  v-model="notificationName"
+                ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                <addEmail />
+                <v-text-field
+                  label="Notification Description"
+                  placeholder="Enter Notification Description"
+                  outlined
+                  v-model="notificationDesc"
+                ></v-text-field>
+              </v-col>
+              
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  label="Event Name"
+                  placeholder="Enter Event Name"
+                  outlined
+                  v-model="eventName"
+                ></v-text-field>
+              </v-col>
+
+              <v-col cols="12" sm="6">
+                <v-select
+                  label="Is Active"
+                  :items="['True', 'False']"
+                  outlined
+                  v-model="isActive"
+                ></v-select>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-select
+                  label="Priority"
+                  :items="['Low', 'Medium', 'High']"
+                  outlined
+                  v-model="priority"
+                ></v-select>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  label="Schedule Date"
+                  placeholder="Enter Schedule Date"
+                  outlined
+                  v-model="scheduleDate"
+                ></v-text-field>
               </v-col>
             </v-row>
-  
-            <v-divider class="my-4 hr-blurry"></v-divider>
-  
-            <v-col cols="12">
-              <v-text-field
-                label="Message Subject"
-                outlined
-                v-model="messageSubject"
-              ></v-text-field>
+          </v-col>
+
+          <v-divider class="my-4 hr-blurry"></v-divider>
+
+          <v-row>
+            <v-col cols="12" sm="6">
+              <conditions />
             </v-col>
-            <v-col cols="12">
-              <v-textarea
-                label="Message Body"
-                rows="8"
-                outlined
-                v-model="message"
-              ></v-textarea>
-            </v-col>
-            <v-col cols="12" class="text-center">
-              <v-btn color="success">Send</v-btn>
+            <v-col cols="12" sm="6">
+              <addEmail />
             </v-col>
           </v-row>
-        </v-form>
-      </v-card>
-    </v-container>
-  </template>
-  
-  <script>
-  import addEmail from './addEmail.vue';
- import Conditions from './Conditions.vue'
- import eventBus from '../eventBus'
 
+          <v-divider class="my-4 hr-blurry"></v-divider>
 
+          <v-col cols="12">
+            <v-text-field
+              label="Message Subject"
+              outlined
+              v-model="messageSubject"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-textarea
+              label="Message Body"
+              rows="8"
+              outlined
+              v-model="message"
+            ></v-textarea>
+          </v-col>
+          <v-col cols="12" class="text-center">
+            <v-btn color="success" @click="sendMessage">Send</v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-card>
+  </v-container>
+</template>
 
-  export default {
-    name: 'createMessage',
-    components: {
-      addEmail,
-      Conditions,
-   
-    },
-    data() {
-      return {
-        message: 'No message provided',
-        notificationName: '',
-        notificationDesc: '',
-        eventName: '',
-        isActive: null,
-        messageSubject: 'Evolv Psychotherapy Test Notification',
-        messageBody: '',
-      };
-    },
-    created() {
-  
-    eventBus.on('message-sent', this.updateMessage); // Listen for the event when the component is created
+<script>
+import addEmail from './addEmail.vue';
+import Conditions from './Conditions.vue'
+import eventBus from '../eventBus'
+
+export default {
+  name: 'createMessage',
+  components: {
+    addEmail,
+    Conditions,
+  },
+  data() {
+    return {
+      message: 'No message provided',
+      notificationName: '',
+      notificationDesc: '',
+      eventName: '',
+      isActive: null,
+      priority: '',
+      scheduleDate: '',
+      messageSubject: 'Evolv Psychotherapy Test Notification',
+      messageBody: '',
+    };
+  },
+  created() {
+    eventBus.on('message-sent', this.updateMessage);
   },
   methods: {
     updateMessage(message) {
-      console.log('Received message:', message); // Debug log
+      console.log('Received message:', message);
       this.message = message;
+    },
+    sendMessage() {
+      const messageDetails = {
+        notificationName: this.notificationName,
+        notificationDesc: this.notificationDesc,
+        eventName: this.eventName,
+        isActive: this.isActive,
+        priority: this.priority,
+        scheduleDate: this.scheduleDate,
+        messageSubject: this.messageSubject,
+        messageBody: this.messageBody,
+      };
+      // Simulate sending a message
+      console.log('Message sent:', messageDetails);
+      eventBus.emit('message-sent', messageDetails);
     }
   }
+};
+</script>
 
-  };
-  </script>
-  
-  <style scoped>
-  .FormColor {
-    background-color: #ECF0F1;
-    color: #212121;
-    max-width: 1200px; /* Adjust max-width for the card */
-    margin: 0 auto; /* Center the card */
-    padding: 20px; /* Increase padding for a better look */
-  }
-  
-  .fields {
-    background-color: #f0f0f0;
-    color: #212121;
-  }
-  
-  .fields:hover {
-    background-color: #e2dfb8;
-  }
-  
-  .notification-group {
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-  }
-  
-  .header {
-    font-weight: bold;
-  }
-  
-  .hr-blurry {
-    opacity: 0.5;
-  }
-  </style>
-  
+<style scoped>
+.FormColor {
+  background-color: #ECF0F1;
+  color: #212121;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.fields {
+  background-color: #f0f0f0;
+  color: #212121;
+}
+
+.fields:hover {
+  background-color: #e2dfb8;
+}
+
+.notification-group {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.header {
+  font-weight: bold;
+}
+
+.hr-blurry {
+  opacity: 0.5;
+}
+</style>

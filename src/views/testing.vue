@@ -27,12 +27,11 @@
                     </v-btn>
                   </v-toolbar>
                 </template>
-
                 <template v-slot:item.action="{ item }">
                   <v-icon
                     small
                     class="mr-2"
-                    @click="createMessage(item.message)"
+                    @click="viewMessage(item.message)"
                     color="primary"
                   >mdi-eye</v-icon>
                   <v-icon
@@ -41,7 +40,6 @@
                     color="red"
                   >mdi-delete</v-icon>
                 </template>
-
               </v-data-table>
             </v-col>
           </v-row>
